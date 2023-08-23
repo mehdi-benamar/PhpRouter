@@ -19,7 +19,7 @@ class Router {
     return $this;
   }
 
-  public function with(array $params)
+  public function with(array $params): self
   {
     foreach($params as $key => $regex){
       $this->paramsRegex[$key] = $regex;
@@ -31,23 +31,21 @@ class Router {
   public function run()
   {
     if(!isset($this->routes[$_SERVER["REQUEST_METHOD"]])){
-      throw new \Exception("Aucune routes existante !");
+      throw new \Exception("Aucune méthode existante !");
     }
 
     foreach($this->routes[$_SERVER["REQUEST_METHOD"]] as $route){
      if($this->url($route[0])) {
       return call_user_func_array($route[1], $this->matches);
-     }
-
-    $this->url($route[0]);
+      }
     }
   }
 
-  private function paramsMatch($match){
+  private function paramsMatch(array $match): string
+  {
     if(isset($this->paramsRegex[$match[1]])){
       return "(" . $this->paramsRegex[$match[1]] . ")";  
     }
-
     return "([^/]+)";
   }
 

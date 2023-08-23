@@ -1,0 +1,11 @@
+{
+    "name": "mib/test_kantique_2023",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "require": {
+        "symfony/var-dumper": "^6.3"
+    }
+}

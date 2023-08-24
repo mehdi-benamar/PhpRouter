@@ -13,16 +13,34 @@ class Router {
     $this->pathUri = trim($pathUri, "/");
   }
 
-  public function get(string $path, \Closure $callable): self
+  public function get(string $path, \Closure|string $callable): self
   {
-    $this->routes["GET"][] = [$path, $callable];
+    $this->method($path, $callable, "GET");
     return $this;
+  }
+
+  public function post(string $path, \Closure|string $callable): self
+  {
+
+    $this->method($path, $callable, "POST");
+    return $this;
+  }
+
+  private function method(string $path, \Closure|string $callable, string $method)
+  {
+    if(is_string($callable)){
+      $controllerMethod = explode("#", $callable);
+      dump($controllerMethod);
+      die();
+    }
+
+    $this->routes[$method][] = [$path, $callable];
   }
 
   public function with(array $params): self
   {
-    foreach($params as $key => $regex){
-      $this->paramsRegex[$key] = $regex;
+    foreach($params as $param => $regex){
+      $this->paramsRegex[$param] = $regex;
     }
 
     return $this;

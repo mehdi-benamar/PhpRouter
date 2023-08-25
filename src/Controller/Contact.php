@@ -6,7 +6,7 @@ class Contact {
 
   public function welcome()
   {
-    return  "bienvenue !!!";
+    echo  "bienvenue !!!";
   }
 
 }

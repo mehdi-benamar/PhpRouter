@@ -30,9 +30,9 @@ class Router {
   {
     if(is_string($callable)){
       $controllerMethod = explode("#", $callable);
-      $controller =  __NAMESPACE__ . "\\Controller\\" . $controllerMethod[0];
+      $controller = new (__NAMESPACE__ . "\Controller\\" . $controllerMethod[0]);
       $call = $controllerMethod[1];
-      $this->routes[$method][] = [$path, [new $controller, $call]];
+      $this->routes[$method][] = [$path, [$controller, $call]];
     }else{
       $this->routes[$method][] = [$path, $callable];
     }

@@ -21,7 +21,6 @@ class Router {
 
   public function post(string $path, \Closure|string $callable): self
   {
-
     $this->method($path, $callable, "POST");
     return $this;
   }
@@ -29,10 +28,14 @@ class Router {
   private function method(string $path, \Closure|string $callable, string $method)
   {
     if(is_string($callable)){
+
       $controllerMethod = explode("#", $callable);
-      $controller = new (__NAMESPACE__ . "\Controller\\" . $controllerMethod[0]);
       $call = $controllerMethod[1];
-      $this->routes[$method][] = [$path, [$controller, $call]];
+      $controller = __NAMESPACE__ . "\Controller\\" . $controllerMethod[0];
+      $reflection = new \ReflectionMethod(new $controller, $call);
+      $finalController = $reflection->isStatic() ?  $controller : new $controller; 
+      $this->routes[$method][] = [$path, [$finalController, $call]];
+      
     }else{
       $this->routes[$method][] = [$path, $callable];
     }

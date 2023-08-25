@@ -6,7 +6,11 @@ class Contact {
 
   public function welcome()
   {
-    echo  "bienvenue !!!";
+    echo "salut";
   }
-
+  
+  public static function wel()
+  {
+    echo "static function";
+  }
 }
